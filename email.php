@@ -31,7 +31,7 @@ if ($_POST) {
   <script src="https://kovuthehusky.com/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
   <script src='http://www.google.com/recaptcha/api.js'></script>
 </head>
-<body style="overflow: hidden;">
+<body style="overflow: hidden; background-color: #343a40 !important;">
 <?php if ($success) { ?>
   <div style="display: inline-block; margin: 0;height: 100%; width: 100%;">
     <div style="display: table; height: 100%; width: 100%; padding: 16px;">
@@ -44,7 +44,7 @@ if ($_POST) {
   <div style="position: fixed; top: 50%; left: 50%; margin-top: -39px; margin-left: -152px;">
     <div style="width:304px;height:78px;">
       <form id="form" method="post">
-        <div class="g-recaptcha" data-sitekey="6LeOIFoUAAAAAN2iCVvXLxnND4qRudDfsT554NiQ" data-callback="recaptcha">
+        <div class="g-recaptcha" data-theme="dark" data-sitekey="6LeOIFoUAAAAAN2iCVvXLxnND4qRudDfsT554NiQ" data-callback="recaptcha">
         </div>
       </form>
     </div>
