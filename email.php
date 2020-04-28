@@ -17,7 +17,7 @@ if ($_POST) {
     }
 } ?>
 <!DOCTYPE html>
-<html lang="en" style="overflow: hidden;">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -31,7 +31,7 @@ if ($_POST) {
   <script src="https://kovuthehusky.com/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
   <script src='http://www.google.com/recaptcha/api.js'></script>
 </head>
-<body style="overflow: hidden; background-color: #343a40 !important;">
+<body style="background-color: #343a40 !important;">
 <?php if ($success) { ?>
   <div style="display: inline-block; margin: 0;height: 100%; width: 100%;">
     <div style="display: table; height: 100%; width: 100%; padding: 16px;">
