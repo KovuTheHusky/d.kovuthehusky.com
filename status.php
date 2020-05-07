@@ -88,6 +88,7 @@ while (true) {
       file_put_contents(__DIR__ . '/status/minecraft.json', $json);
     }
   } catch (Exception $e) {
+    file_put_contents(__DIR__ . '/status/minecraft.json', '');
   }
 
   // Terraria
@@ -111,6 +112,7 @@ while (true) {
     $json = json_encode($json);
     file_put_contents(__DIR__ . '/status/counterstrike-practice.json', $json);
   } catch (Exception $e) {
+    file_put_contents(__DIR__ . '/status/counterstrike-practice.json', '');
   }
   // CSGO - Retake
 
@@ -124,6 +126,7 @@ while (true) {
     $json2 = json_encode($json2);
     file_put_contents(__DIR__ . '/status/counterstrike-retake.json', $json2);
   } catch (Exception $e) {
+    file_put_contents(__DIR__ . '/status/counterstrike-retake.json', '');
   }
 
 }
