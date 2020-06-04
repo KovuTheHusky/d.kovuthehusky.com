@@ -18,9 +18,12 @@ use xPaw\MinecraftQueryException;
 use xPaw\SourceQuery\SourceQuery;
 
 require __DIR__ . '/configuration.php';
+require __DIR__ . '/tokens.php';
 require __DIR__ . '/node_modules/PHP-Minecraft-Query/src/MinecraftQuery.php';
 require __DIR__ . '/node_modules/PHP-Minecraft-Query/src/MinecraftQueryException.php';
 require __DIR__ . '/node_modules/PHP-Source-Query/SourceQuery/bootstrap.php';
+
+$lastRestream = 0;
 
 
 
@@ -45,7 +48,52 @@ while (true) {
     usleep(1000);
   }
 
+  // Stream
+  
+  if ($lastRestream < $time - 60) {
+    $lastRestream = $time;
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, 'https://api.restream.io/v2/user/stream');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+    $headers = array();
+    $headers[] = 'Authorization: Bearer ' . $restream_access;
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    $result = curl_exec($ch);
+    if (!curl_errno($ch)) {
+      $result_json = json_decode($result);
+      if (isset($result_json->error)) {
+        $ch2 = curl_init();
+        curl_setopt($ch2, CURLOPT_URL, 'https://api.restream.io/oauth/token');
+        curl_setopt($ch2, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch2, CURLOPT_POST, 1);
+        curl_setopt($ch2, CURLOPT_POSTFIELDS, "grant_type=refresh_token&refresh_token=" . $restream_refresh);
+        curl_setopt($ch2, CURLOPT_USERPWD, RESTREAM_ID . ':' . RESTREAM_SECRET);
+        $headers = array();
+        $headers[] = 'Content-Type: application/x-www-form-urlencoded';
+        curl_setopt($ch2, CURLOPT_HTTPHEADER, $headers);
+        $result2 = curl_exec($ch2);
+        if (!curl_errno($ch2)) {
+          $result2 = json_decode($result2);
+          if (isset($result2->error)) {
+          } else {
+            $restream_access = $result2->access_token;
+            $restream_refresh = $result2->refresh_token;
+            $data = '<?php' . PHP_EOL . PHP_EOL . '$restream_access = \'' . $restream_access . '\';' . PHP_EOL . '$restream_refresh = \'' . $restream_refresh . '\';' . PHP_EOL;
+            file_put_contents(__DIR__ . 'tokens.php', $data);
+            $lastRestream = 0;
+          }
+        }
+        curl_close($ch2);
+      } else {
+        file_put_contents(__DIR__ . '/status/restream.json', $result);
+      }
+    }
+    curl_close($ch);
+  }
+  
   // Minecraft
+
   try {
     $mq->Connect('10.0.1.4', 25565, 1);
     
