@@ -8,4 +8,5 @@
 
 "PHP-Source-Query@https://github.com/xPaw/PHP-Source-Query":
   version "0.0.0"
-  resolved "https://github.com/xPaw/PHP-Source-Query#75d3465690f9db0b1297eae26b84c63697dc14d7"
+  uid "4f88fb0c7675f50e947217f811b9a1b5d78a42f5"
+  resolved "https://github.com/xPaw/PHP-Source-Query#4f88fb0c7675f50e947217f811b9a1b5d78a42f5"
